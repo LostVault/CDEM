@@ -9,10 +9,11 @@ class BaseModel(peewee.Model):
 
 
 class CalendarEvents(BaseModel):
-    drupal_id = peewee.IntegerField(primary_key=True)
+    drupal_id = peewee.CharField(primary_key=True)
     start_datetime = peewee.DateTimeField()
     end_datetime = peewee.DateTimeField()
     title = peewee.TextField()
+    activity_type = peewee.CharField()
     location = peewee.TextField()
     description = peewee.TextField()
     eligibility = peewee.TextField(null=True)
@@ -20,6 +21,7 @@ class CalendarEvents(BaseModel):
     addition_requirements = peewee.TextField(null=True)
     info_link = peewee.TextField(null=True)
     video_link = peewee.TextField(null=True)
+    image_link = peewee.TextField(null=True)
 
 
 CalendarEvents.create_table()
