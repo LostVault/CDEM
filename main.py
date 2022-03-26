@@ -1,3 +1,4 @@
+import dataclasses
 import os
 from DiscordNotifier import DiscordNotifier
 import Constants
@@ -64,6 +65,6 @@ for event in events:
     if DB.CalendarEvents.select().where(DB.CalendarEvents.drupal_id == event.drupal_id).count() == 0:
         # We don't have this record in DB
         discord_notifier.send(str(CalendarEventDiscordTemplate(event)))
-        # DB.CalendarEvents.create(**dataclasses.asdict(event))
+        DB.CalendarEvents.create(**dataclasses.asdict(event))
 
 discord_notifier.stop()
