@@ -13,6 +13,7 @@ image_link: str - опциональное, 255 символов
 
 
 ```
+⠀
 > Racing
 > <t:1650063600> – <t:1650841199>
 ```fix
@@ -44,6 +45,7 @@ https://imgur.com/1TuRPvT
 
 
 ```
+⠀
 > ACTIVITY
 > <t:START_DATETIME_TIMESTAMP> – <t:END_DATETIME_TIMESTAMP>
 \```fix
