@@ -34,7 +34,11 @@ class CalendarEventDiscordTemplate:
     @staticmethod
     def cut_string(the_string: str, chars_limit: int) -> str:
         if the_string is not None:
-            return the_string[:chars_limit] + '...'
+            if len(the_string) > chars_limit:
+                return the_string[:chars_limit] + '...'
+
+            else:
+                return the_string
 
 
 class Templates:
