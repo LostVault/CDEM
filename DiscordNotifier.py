@@ -1,5 +1,7 @@
 import asyncio
 import queue
+import signal
+import threading
 from threading import Thread
 import discord
 from queue import Queue
@@ -23,8 +25,8 @@ class DiscordNotifier(discord.Client):
         try:
             msg: str = self.messages_queue.get_nowait()
             if msg is None:
-                await self.close()
                 self.notifier_background_task.stop()
+                await self.close()
                 return
 
             channel: discord.channel.TextChannel = self.get_channel(self.channel_id)
@@ -48,7 +50,7 @@ class DiscordNotifier(discord.Client):
         self.messages_queue.put(None)
 
     def run_in_thread(self, *args, **kwargs) -> Thread:
-        self.thread = Thread(target=lambda: self.run(*args, **kwargs), daemon=True)
+        self.thread = Thread(target=lambda: self.loop.run_until_complete(self.start(*args, **kwargs)), daemon=True)
         self.thread.start()
         return self.thread
 
