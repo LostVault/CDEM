@@ -44,6 +44,7 @@ class CalendarEventDiscordTemplate:
 class Templates:
     HEADER = """
 ⠀
+⠀
 > {activity_type}
 > <t:{start_datetime}> – <t:{end_datetime}>
 ```fix
