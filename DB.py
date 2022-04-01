@@ -1,6 +1,7 @@
 import peewee
+import os
 
-database = peewee.SqliteDatabase('CommunityDrivenEventsMonitor.sqlite')
+database = peewee.SqliteDatabase(os.environ['CDEM_SQLITE_PATH'])
 
 
 class BaseModel(peewee.Model):
