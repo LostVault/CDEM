@@ -16,6 +16,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем файлы в рабочий каталог
 COPY . .
 
-VOLUME /persistance
 # Выполняем команду
 CMD [ "python3", "main.py"]
