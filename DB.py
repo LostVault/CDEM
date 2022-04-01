@@ -1,7 +1,18 @@
 import peewee
 import os
 
-database = peewee.SqliteDatabase(os.environ['CDEM_SQLITE_PATH'])
+db_path = os.environ['CDEM_SQLITE_PATH']
+
+if os.environ.get('CDEM_WIPE_DATA', 'False').lower() == 'True'.lower():
+    print('CDEM_WIPE_DATA is True, dropping data')
+    try:
+        os.remove(db_path)
+        print(f'Successfully removed file')
+
+    except Exception:
+        print('Failed to remove DB file')
+
+database = peewee.SqliteDatabase(db_path)
 
 
 class BaseModel(peewee.Model):
