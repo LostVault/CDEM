@@ -91,7 +91,7 @@ class CommunityDrivenEventsMonitor(discord.Client):
         print(f'Shutting down by signal: {sig}')
         asyncio.create_task(self.close())
 
-    @discord.ext.tasks.loop(seconds=30.0)
+    @discord.ext.tasks.loop(seconds=float(os.environ['CDEM_EVENTS_PULL_INTERVAL']))
     async def notifier_background_task(self):
         # noinspection PyBroadException
         try:
