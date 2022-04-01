@@ -71,13 +71,14 @@ async def new_events_generator() -> AsyncGenerator[str, None]:
         if DB.CalendarEvents.select().where(DB.CalendarEvents.drupal_id == event.drupal_id).count() == 0:
             # We don't have this record in DB
             yield str(CalendarEventDiscordTemplate(event))
+            print(f'Sending {event.title}')
             DB.CalendarEvents.create(**dataclasses.asdict(event))
 
 
 class CommunityDrivenEventsMonitor(discord.Client):
     def __init__(self, channel_id: int, *args, **kwargs):
         super().__init__(**kwargs)
-        signal.signal(signal.SIGTERM, self.shutdown)
+        # signal.signal(signal.SIGTERM, self.shutdown)
         signal.signal(signal.SIGINT, self.shutdown)
         print('Shutdown callbacks registered')
         self.channel_id = channel_id
