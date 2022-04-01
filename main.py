@@ -99,7 +99,8 @@ class CommunityDrivenEventsMonitor(discord.Client):
             channel: discord.channel.TextChannel = self.get_channel(self.channel_id)
             async for msg in new_events_generator():
                 message = await channel.send(msg)
-                await message.publish()
+                if os.environ.get('CDEM_PUBLISH', 'True').lower() == 'True'.lower():
+                    await message.publish()
 
         except Exception:
             print(traceback.format_exc())
