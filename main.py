@@ -3,7 +3,7 @@ import dataclasses
 import os
 import signal
 import traceback
-from typing import AsyncGenerator
+from typing import AsyncGenerator, List
 import aiohttp
 import discord
 import discord.ext.tasks
@@ -33,7 +33,7 @@ async def new_events_generator() -> AsyncGenerator[str, None]:
     raw_events = json_response['data']
     included = json_response['included']
 
-    events = list()
+    events: List[CalendarEvent] = list()
 
     for raw_event in raw_events:
         event_id = raw_event['id']
@@ -66,12 +66,13 @@ async def new_events_generator() -> AsyncGenerator[str, None]:
         )
 
     # noinspection PyTypeChecker
-    events = sorted(events)
+    events: List[CalendarEvent] = sorted(events)
     for event in events:
         if DB.CalendarEvents.select().where(DB.CalendarEvents.drupal_id == event.drupal_id).count() == 0:
+            await event.validate_image()
             # We don't have this record in DB
+            # print(f'Yielding {event.title}')
             yield str(CalendarEventDiscordTemplate(event))
-            print(f'Sending {event.title}')
             DB.CalendarEvents.create(**dataclasses.asdict(event))
 
 
