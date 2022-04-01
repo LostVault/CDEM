@@ -33,8 +33,8 @@ class CalendarEvent:
                     r.raise_for_status()
 
             except Exception:
-                self.image_link = None
                 print(f'URL check failed for: {self.image_link!r}')
+                self.image_link = None
                 print(traceback.format_exc())
                 return
 
