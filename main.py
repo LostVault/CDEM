@@ -47,6 +47,12 @@ async def new_events_generator() -> AsyncGenerator[str, None]:
                 break
 
         raw_event_attributes = raw_event['attributes']
+        if raw_event_attributes.get('field_cal_link') is None:
+            field_cal_link = None
+
+        else:
+            field_cal_link = raw_event_attributes['field_cal_link'].get('uri', None)
+
         events.append(
             CalendarEvent(
                 drupal_id=event_id,
@@ -59,7 +65,7 @@ async def new_events_generator() -> AsyncGenerator[str, None]:
                 eligibility=raw_event_attributes['field_cal_eligibility'],
                 requirements=raw_event_attributes['field_cal_requirements'],
                 addition_requirements=raw_event_attributes['field_cal_add_reqs'],
-                info_link=raw_event_attributes['field_cal_link']['uri'],
+                info_link=field_cal_link,
                 video_link=raw_event_attributes['field_cal_video_url'],
                 image_link=raw_event_attributes['field_cal_image_url']
             )
