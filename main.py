@@ -89,10 +89,13 @@ class CommunityDrivenEventsMonitor(discord.Client):
         signal.signal(signal.SIGINT, self.shutdown)
         print('Shutdown callbacks registered')
         self.channel_id = channel_id
+        self.task_started = False
 
     async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
-        self.notifier_background_task.start()
+        if not self.task_started:
+            self.notifier_background_task.start()
+            self.task_started = True
 
     def shutdown(self, sig, frame):
         print(f'Shutting down by signal: {sig}')
