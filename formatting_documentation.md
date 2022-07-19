@@ -1,9 +1,13 @@
+event_link: str - обязательное, выделяем 60 символов.
+- Получается как `https://elitedangerous.com/community/events?event=<EVENT_ID>`,
+где EVENT_ID - `drupal_internal__nid`
+
 start_datetime: datetime - обязательное  
 end_datetime: datetime - обязательное  
 title: str - обязательное, 255 символов  
 activity: str - обязательное, одно из значений "Expedition", "Racing", "PVP", "PVE", "Mining", "Scientific", "Lore", "Sightseeing" или "Other"  
 location: str - обязательное, 255 символов  
-description: str - обязательное, без ограничения, обрезаем до 150 (в конце "...")  
+description: str - обязательное, без ограничения, обрезаем до 100 (в конце "...")  
 eligibility: str - опциональное, без ограничения, обрезаем до 50 (в конце "...")  
 requirements: str - опциональное, 255 символов  
 addition_requirements: str - опциональное, без ограничения, обрезаем до 50 (в конце "...")  
@@ -17,6 +21,8 @@ image_link: str - опциональное, 255 символов
 ⠀
 > Racing
 > <t:1650063600> – <t:1650841199>
+> *<https://elitedangerous.com/community/events?event=9999999999>*
+> *<EVENT_LINK>*
 ```fix
 The Wiccan BeWare Race
 \```
@@ -50,6 +56,7 @@ https://imgur.com/1TuRPvT
 ⠀
 > ACTIVITY
 > <t:START_DATETIME_TIMESTAMP> – <t:END_DATETIME_TIMESTAMP>
+> *<EVENT_LINK>*
 \```fix
 TITLE
 \```

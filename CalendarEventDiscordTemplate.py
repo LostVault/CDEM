@@ -9,7 +9,7 @@ class CalendarEventDiscordTemplate:
         event.start_datetime = int(event.start_datetime.timestamp())
         event.end_datetime = int(event.end_datetime.timestamp())
 
-        event.description = self.cut_string(event.description, 150)
+        event.description = self.cut_string(event.description, 100)
         event.eligibility = self.cut_string(event.eligibility, 50)
         event.requirements = self.cut_string(event.requirements, 50)
 
@@ -47,6 +47,7 @@ class Templates:
 ⠀
 > {activity_type}
 > <t:{start_datetime}> – <t:{end_datetime}>
+> {event_link}
 ```fix
 {title}
 ```

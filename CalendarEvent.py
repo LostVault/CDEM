@@ -8,6 +8,7 @@ from datetime import datetime
 class CalendarEvent:
     sort_index: int = field(init=False)
     drupal_id: str
+    drupal_internal_nid: int
     start_datetime: datetime
     end_datetime: datetime
     title: str
@@ -20,6 +21,7 @@ class CalendarEvent:
     info_link: str | None
     video_link: str | None
     image_link: str | None  # if image link is invalid or not exists, it is None
+    event_link: str = field(init=False)
 
     async def validate_image(self):
         # print(f'Checking image validity for {self.image_link!r}')
@@ -42,5 +44,6 @@ class CalendarEvent:
 
     def __post_init__(self):
         self.sort_index = int(self.start_datetime.timestamp())
+        self.event_link = f'https://elitedangerous.com/community/events?event={self.drupal_internal_nid}'
         if self.addition_requirements == "None":
             self.addition_requirements = None

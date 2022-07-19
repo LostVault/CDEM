@@ -50,6 +50,7 @@ async def new_events_generator() -> AsyncGenerator[str, None]:
 
         events.append(
             CalendarEvent(
+                drupal_internal_nid=raw_event_attributes['drupal_internal__nid'],
                 drupal_id=event_id,
                 title=raw_event_attributes['title'],
                 start_datetime=parse_timestamp(raw_event_attributes['field_cal_start_date_time']),
