@@ -3,7 +3,7 @@ import dataclasses
 import os
 import signal
 import traceback
-from typing import AsyncGenerator, List
+from typing import AsyncGenerator
 import aiohttp
 import discord
 import discord.ext.tasks
@@ -33,7 +33,7 @@ async def new_events_generator() -> AsyncGenerator[str, None]:
     raw_events = json_response['data']
     included = json_response['included']
 
-    events: List[CalendarEvent] = list()
+    events: list[CalendarEvent] = list()
 
     for raw_event in raw_events:
         event_id = raw_event['id']
@@ -47,11 +47,6 @@ async def new_events_generator() -> AsyncGenerator[str, None]:
                 break
 
         raw_event_attributes = raw_event['attributes']
-        if raw_event_attributes.get('field_cal_link') is None:
-            field_cal_link = None
-
-        else:
-            field_cal_link = raw_event_attributes['field_cal_link'].get('uri', None)
 
         events.append(
             CalendarEvent(
@@ -65,15 +60,14 @@ async def new_events_generator() -> AsyncGenerator[str, None]:
                 eligibility=raw_event_attributes['field_cal_eligibility'],
                 requirements=raw_event_attributes['field_cal_requirements'],
                 addition_requirements=raw_event_attributes['field_cal_add_reqs'],
-                info_link=field_cal_link,
+                info_link=(raw_event_attributes.get('field_cal_link', {}) or {}).get('uri', None),
                 video_link=raw_event_attributes['field_cal_video_url'],
                 image_link=raw_event_attributes['field_cal_image_url']
             )
         )
 
     # noinspection PyTypeChecker
-    events: List[CalendarEvent] = sorted(events)
-    for event in events:
+    for event in sorted(events):
         if DB.CalendarEvents.select().where(DB.CalendarEvents.drupal_id == event.drupal_id).count() == 0:
             await event.validate_image()
             # We don't have this record in DB
