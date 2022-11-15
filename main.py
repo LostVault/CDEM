@@ -116,5 +116,9 @@ class CommunityDrivenEventsMonitor(discord.Client):
 
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
-client = CommunityDrivenEventsMonitor(int(os.environ['CDEM_DISCORD_CHANNEL_ID']), loop=loop)
+client = CommunityDrivenEventsMonitor(
+    int(os.environ['CDEM_DISCORD_CHANNEL_ID']),
+    loop=loop,
+    intents=discord.Intents.default()
+)
 loop.run_until_complete(client.start(os.environ['CDEM_DISCORD_TOKEN']))
