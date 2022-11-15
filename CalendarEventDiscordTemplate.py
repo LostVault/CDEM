@@ -47,7 +47,7 @@ class Templates:
 ⠀
 > {activity_type}
 > <t:{start_datetime}> – <t:{end_datetime}>
-> {event_link}
+> <{event_link}>
 ```fix
 {title}
 ```
