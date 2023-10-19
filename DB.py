@@ -1,6 +1,8 @@
 import peewee
 import os
 
+import Constants
+
 db_path = os.environ['CDEM_SQLITE_PATH']
 
 if os.environ.get('CDEM_WIPE_DATA', 'False').lower() == 'True'.lower():
@@ -36,4 +38,27 @@ class CalendarEvents(BaseModel):
     image_link = peewee.TextField(null=True)
 
 
+class Config(BaseModel):
+    key = peewee.CharField(primary_key=True)
+    value = peewee.TextField()
+
+
+def set_latest_url(url: str) -> None:
+    try:
+        Config.create(key='latest_url', value=url)
+
+    except peewee.IntegrityError:
+        Config.update({Config.value: url}).where(Config.key == 'latest_url').execute()
+
+
+def get_latest_url() -> str:
+    row = Config.get_or_none(Config.key == 'latest_url')
+    if row is None:
+        return Constants.EVENTS_FEED
+
+    else:
+        return row.value
+
+
 CalendarEvents.create_table()
+Config.create_table()
